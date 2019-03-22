@@ -1,24 +1,9 @@
-# README
+# Magic Conch Shell - Server
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
+This is the server-side code for the Magic Conch Shell Project
 
 * Ruby version
+  * 2.6.0
 
 * System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+  * gems: bcrypt, rails, puma, dotenv
