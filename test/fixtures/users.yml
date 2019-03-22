@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  nickname: MyString
+  phone: MyString
+  email: MyString
+  password_digest: MyString
+  is_mentor: false
+  points: 1
+
+two:
+  nickname: MyString
+  phone: MyString
+  email: MyString
+  password_digest: MyString
+  is_mentor: false
+  points: 1
