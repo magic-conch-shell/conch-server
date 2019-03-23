@@ -11,13 +11,13 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
   namespace :api do
-    resources :users, only: [:show, :update, :destroy] do
-      resources :questions, only: [:index]
-      resources :answers, only: [:index]
+    resources :users, only: [:show, :update, :destroy], defaults: {format: :json} do
+      resources :questions, only: [:index], defaults: {format: :json}
+      resources :answers, only: [:index], defaults: {format: :json}
     end
-    resources :questions, only: [:create, :show, :destroy]
-    resources :answers, only: [:create, :show, :destroy]
-    resources :tags, except: [:edit, :new, :update]
+    resources :questions, only: [:create, :show, :destroy], defaults: {format: :json}
+    resources :answers, only: [:create, :show, :destroy], defaults: {format: :json}
+    resources :tags, except: [:edit, :new, :update], defaults: {format: :json}
   end
 
   post '/login' => 'sessions#create'

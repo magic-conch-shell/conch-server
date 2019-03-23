@@ -1,4 +1,7 @@
 class Api::AnswersController < ApplicationController
+  before_filter :authorize
+  respond_to :json
+
   def create
   end
 
