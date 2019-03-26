@@ -1,0 +1,112 @@
+<h1>Welcome#index</h1>
+<p><%= current_user %></p>
+
+<script
+  src="http://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+
+<h3>Register</h3>
+<form class="reg-form">
+  <label for="nickname">nickname:</label>
+  <input class="nickname-field" type="text" name="nickname" placeholder="Nick Name" required />
+
+  <label for="email">email:</label>
+  <input class="email-field" type="email" name="email" placeholder="email" required />
+
+  <label dor="password">password:</label>
+  <input class="password-field" type="password" name="password" pattern=".{8,}" required />
+
+  <input type="submit" name="signup" value="sign up" />
+</form>
+
+<h3>Login</h3>
+<form class="login-form">
+  <label for="email">email:</label>
+  <input class="email-field" type="email" name="email" placeholder="email" required />
+
+  <label dor="password">password:</label>
+  <input class="password-field" type="password" name="password" pattern=".{8,}" required />
+
+  <input type="submit" name="login" value="log in" />
+</form>
+
+<h3>Logout</h3>
+<button id="logout-button">Logout</button>
+
+<h3>Print Tags</h3>
+<button id="tags-button">Print Tags</button>
+
+<h3>Ask Question</h3>
+<form class="q-form">
+  <label for="title">title:</label>
+  <input class="title-field" type="text" name="title" placeholder="title" required />
+
+  <label for="content">content:</label>
+  <input class="content-field" type="text" name="content" placeholder="content" required />
+
+  <input type="submit" name="submit" value="submit" />
+</form>
+
+<h3>Print Question by ID</h3>
+<form class="qget-form">
+  <label for="id">id:</label>
+  <input class="id-field" type="text" name="id" placeholder="question id" required />
+
+  <input type="submit" name="submit" value="print console" />
+</form>
+
+<script type="text/javascript">
+  $(document).ready(function () {
+
+    $('.reg-form').submit(function (e) {
+      e.preventDefault();
+      const query = $(".reg-form").serialize();
+      $.ajax("/register", {method: "POST", data: query})
+      .then(function (data) {
+        console.log(data);
+      });
+    });
+
+    $('.login-form').submit(function (e) {
+      e.preventDefault();
+      const query = $(".login-form").serialize();
+      $.ajax("/login", {method: "POST", data: query})
+      .then(function (data) {
+        console.log(data);
+      });
+    });
+
+    $('#logout-button').click(function (e) {
+      e.preventDefault();
+      $.ajax("/logout", {method: "POST"});
+    });
+
+    $('#tags-button').click(function (e) {
+      e.preventDefault();
+      $.ajax("/api/tags")
+      .then(function (data) {
+        console.log(data);
+      });
+    });
+
+    $('.q-form').submit(function (e) {
+      e.preventDefault();
+      const query = $(".q-form").serialize();
+      $.ajax("/api/questions", {method: "POST", data: query})
+      .then(function (data) {
+        console.log(data);
+      });
+    });
+
+    $('.qget-form').submit(function (e) {
+      e.preventDefault();
+      $.ajax(`/api/questions/${$('.id-field').val()}`)
+      .then(function (data) {
+        console.log(data);
+      });
+    });
+
+  });
+</script>
+

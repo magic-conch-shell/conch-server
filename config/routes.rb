@@ -1,13 +1,12 @@
 Rails.application.routes.draw do
-  get 'register/create'
-  get 'sessions/create'
-  get 'sessions/destroy'
   namespace :api do
-    get 'tags/index'
-    get 'tags/create'
-    get 'tags/show'
-    get 'tags/destroy'
+    get 'ratings/index'
+    get 'ratings/create'
   end
+
+  get 'welcome/index'
+
+  root 'welcome#index'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
   namespace :api do
@@ -15,8 +14,17 @@ Rails.application.routes.draw do
       resources :questions, only: [:index], defaults: {format: :json}
       resources :answers, only: [:index], defaults: {format: :json}
     end
-    resources :questions, only: [:create, :show, :destroy], defaults: {format: :json}
-    resources :answers, only: [:create, :show, :destroy], defaults: {format: :json}
+
+    resources :user_tags, only: [:index, :create, :destroy]
+
+    resources :questions, only: [:create, :show, :destroy], defaults: {format: :json} do
+      resources :answers, only: [:create]
+    end
+
+    resources :answers, only: [:show, :update, :destroy], defaults: {format: :json} do
+      resources :ratings, only: [:index, :create]
+    end
+
     resources :tags, except: [:edit, :new, :update], defaults: {format: :json}
   end
 

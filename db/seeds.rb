@@ -39,7 +39,7 @@ end
 puts "Finding or Creating Tag Names ..."
 
 tag_list_arr.each do |tag|
-  Category.find_or_create_by! name: tag
+  Tag.find_or_create_by! name: tag
 end
 
 

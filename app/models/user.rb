@@ -9,7 +9,7 @@ class User < ApplicationRecord
 
   validates :nickname, presence: true
   validates :email, presence: true, uniqueness: true
-  validates :phone, presence: true, uniqueness: true
+  #validates :phone, presence: true, uniqueness: true
   validates :password_digest, presence: true
   validates :points, presence: true, numericality: {
     only_integer: true,
@@ -18,6 +18,13 @@ class User < ApplicationRecord
   validates :is_mentor, inclusion: { in: [true, false] }
 
   validate :email_must_contain_alpha
+
+  def self.authenticate_with_credentials(log_email, log_password)
+    @newUser = nil
+    # user = User.find_by_email(log_email.strip)
+    user = User.where('lower(email) = ?', log_email.strip.downcase).first
+    @newUser = user if user && user.authenticate(log_password)
+  end
 
   private
 
