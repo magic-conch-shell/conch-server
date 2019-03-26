@@ -3,7 +3,7 @@ class Api::AnswersController < ApplicationController
   respond_to :json
 
   def index
-    if (@answers = Answer.where(user_id: params[:user_id]))
+    if (@answers = Answer.where(user_id: params[:user_id])) && current_user.id == params[:user_id]
       render :json => @answers
     else
       render :json => nil

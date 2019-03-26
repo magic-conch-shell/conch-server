@@ -27,7 +27,7 @@ class Api::QuestionsController < ApplicationController
 
   def show
     @question = Question.find(params[:id])
-    if @question && @question.user_id == current_user.id
+    if @question && (@question.user_id == current_user.id || current_user.is_mentor)
       render :json => @question
     else
       render :json => nil
