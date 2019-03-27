@@ -162,6 +162,28 @@
       });
     });
 
+    // 15
+    $('.r-form').submit(function (e) {
+      e.preventDefault();
+      const query = {
+        value: parseInt($('.value-field').val(), 10)
+      };
+
+      $.ajax(`/api/answers/${$('.raid-field').val()}/ratings`, {method: "POST", data: query})
+      .then(function (data) {
+        console.log(data);
+      });
+    });
+
+    // 12
+    $('.rget-form').submit(function (e) {
+      e.preventDefault();
+      $.ajax(`/api/answers/${$('.r-aid-field').val()}/ratings`)
+      .then(function (data) {
+        console.log(data);
+      });
+    });
+
   });
 </script>
 </html>

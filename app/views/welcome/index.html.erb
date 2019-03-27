@@ -314,5 +314,66 @@
 
 <hr>
 
+<h3>15. Create Rating to an Answer</h3>
+<p><strong>User must be a creator of the question</strong></p>
+<p> If not, the rating will simply not be created, and 'null' is returned</p>
+
+<form class="r-form">
+  <label for="answer_id">answer-id:</label>
+  <input class="raid-field" type="text" name="answer_id" placeholder="answer-id" required />
+
+  <label for="value">value:</label>
+  <select class="value-field" name="value">
+    <option value="0">0</option>
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+    <option value="7">7</option>
+    <option value="8">8</option>
+    <option value="9">9</option>
+    <option value="10">10</option>
+  </select>
+
+  <input type="submit" name="submit" value="submit" />
+</form>
+
+<ul>
+  <li>when logged in, open dev-tools console, fill in the form and press submit</li>
+  <li>prints 'Object' of rating that was submitted</li>
+  <li>user_id of the returned Object is the answerer's id</li>
+  <li>
+    <code>
+      $.ajax("/api/answers/:answer_id/ratings", {method: "POST", data: query}).then(data => console.log(data));
+    </code>
+  </li>
+  <li>query includes 'value' which should be an integer from 0 to 10</li>
+</ul>
+
+<hr>
+
+<h3>16. Print Rating by Answer ID</h3>
+
+<form class="rget-form">
+  <label for="answer_id">answer-id:</label>
+  <input class="r-aid-field" type="text" name="answer_id" placeholder="answer id" required />
+
+  <input type="submit" name="submit" value="print console" />
+</form>
+
+<ul>
+  <li>when logged in as asker or answerer to the target, open dev-tools console, fill in answer-id and press submit</li>
+  <li>prints 'Object' of the rating of the answer</li>
+  <li>
+    <code>
+      $.ajax(`/api/answers/:answer_id/ratings`).then(data => console.log(data));
+    </code>
+  </li>
+</ul>
+
+<hr>
+
 <br>
 <hr>
