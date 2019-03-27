@@ -7,7 +7,12 @@ class ApplicationController < ActionController::Base
   helper_method :current_user
 
   def authorize
-    render :json => false unless current_user
+    unless current_user
+      render :json => {
+        error: 'Unauthorized access',
+        status: 401
+      }, status: 401
+    end
   end
   helper_method :authorize
 end

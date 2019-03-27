@@ -7,11 +7,21 @@ class RegisterController < ApplicationController
     @user[:points] = 0
     @user[:is_mentor] = false
 
-    if @user.save
-      session[:user_id] = @user.id
-      render :json => @user
+    if User.where(email: params[:email]).size > 0
+      render :json => {
+        error: 'Register failed, email already exists',
+        status: 400
+      }, status: 400
     else
-      render :json => Hash.new
+      if @user.save
+        session[:user_id] = @user.id
+        render :json => @user
+      else
+        render :json => {
+          error: 'Server failed to create user data',
+          status: 500
+        }, status: 500
+      end
     end
   end
 
