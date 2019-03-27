@@ -8,12 +8,18 @@ class Api::RatingsController < ApplicationController
 
     if current_user.id == @question.user_id || current_user.id == @answer.user_id
       if (@rating = Rating.where(answer_id: @answer.id).first)
-        render :json => @rating
+        render :json => @rating, status: 200
       else
-        render :json => nil
+        render :json => {
+          error: 'Failed to retrieve rating data from the server',
+          status: 500
+        }, status: 500
       end
     else
-      render :json => nil
+      render :json => {
+        error: 'Unrelated user to access the rating',
+        status: 403
+      }, status: 403
     end
   end
 
@@ -28,12 +34,18 @@ class Api::RatingsController < ApplicationController
       )
 
       if @rating.save
-        render :json => @rating
+        render :json => @rating, status: 201
       else
-        render :json => nil
+        render :json => {
+          error: 'Failed to save rating data from the server',
+          status: 500
+        }, status: 500
       end
     else
-      render :json => nil
+      render :json => {
+        error: 'Unrelated user to create the rating/value out of range',
+        status: 403
+      }, status: 403
     end
   end
 end

@@ -9,16 +9,16 @@ class RegisterController < ApplicationController
 
     if User.where(email: params[:email]).size > 0
       render :json => {
-        error: 'Register failed, email already exists',
+        error: 'Email already exists',
         status: 400
       }, status: 400
     else
       if @user.save
         session[:user_id] = @user.id
-        render :json => @user
+        render :json => @user, status: 200
       else
         render :json => {
-          error: 'Server failed to create user data',
+          error: 'Failed to create user data from the server',
           status: 500
         }, status: 500
       end

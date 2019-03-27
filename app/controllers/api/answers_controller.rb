@@ -4,9 +4,12 @@ class Api::AnswersController < ApplicationController
 
   def index
     if (@answers = Answer.where(user_id: params[:user_id])) && current_user.id == params[:user_id].to_i
-      render :json => @answers
+      render :json => @answers, status: 200
     else
-      render :json => nil
+      render :json => {
+        error: 'User is not a mentor with access to this answer',
+        status: 403
+      }, status: 403
     end
   end
 
@@ -22,12 +25,18 @@ class Api::AnswersController < ApplicationController
         selected: false
       )
       if @answer.save
-        render :json => @answer
+        render :json => @answer, status: 201
       else
-        render :json => nil
+        render :json => {
+          error: 'Failed to save answer data from the server',
+          status: 500
+        }, status: 500
       end
     else
-      render :json => nil
+      render :json => {
+        error: 'User is not a mentor with matching tags',
+        status: 403
+      }, status: 403
     end
   end
 
@@ -37,7 +46,10 @@ class Api::AnswersController < ApplicationController
     if current_user.id == @answer.user_id || current_user.id == @question.user_id
       render :json => @answer
     else
-      render :json => nil
+      render :json => {
+        error: 'Unrelated user to access the answer data',
+        status: 403
+      }, status: 403
     end
   end
 
@@ -51,9 +63,12 @@ class Api::AnswersController < ApplicationController
       else
         @question.update_column(:solved, false)
       end
-      render :json => true
+      render :json => true, status: 200
     else
-      render :json => false
+      render :json => {
+        error: 'User is not the owner of the question',
+        status: 403
+      }, status: 403
     end
   end
 

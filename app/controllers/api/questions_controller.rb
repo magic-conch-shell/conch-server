@@ -4,16 +4,22 @@ class Api::QuestionsController < ApplicationController
 
   def index
     if (@questions = Question.where(user_id: params[:user_id]))
-      render :json => @questions
+      render :json => @questions, status: 200
     else
-      render :json => nil
+      render :json => {
+        error: 'Failed to retrieve question data from the server',
+        status: 500
+      }, status: 500
     end
   end
 
   def create
     tag_list = params[:tags]
     if tag_list.size == 0
-      return render :json => nil
+      return render :json => {
+        error: 'At least one tag is required',
+        status: 400
+      }, status: 400
     end
 
     params = question_params
@@ -23,18 +29,24 @@ class Api::QuestionsController < ApplicationController
     if @question.save
       create_qtag(@question, tag_list)
 
-      render :json => @question
+      render :json => @question, status: 201
     else
-      render :json => nil
+      render :json => {
+        error: 'Failed to save question data from the server',
+        status: 500
+      }, status: 500
     end
   end
 
   def show
     @question = Question.find(params[:id])
     if @question && (@question.user_id == current_user.id || current_user.is_mentor)
-      render :json => @question
+      render :json => @question, status: 200
     else
-      render :json => nil
+      render :json => {
+        error: 'Unrelated user to access question data',
+        status: 403
+      }, status: 403
     end
   end
 

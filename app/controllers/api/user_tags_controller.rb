@@ -10,9 +10,12 @@ class Api::UserTagsController < ApplicationController
         @tags << tag
       end
 
-      render :json => @tags
+      render :json => @tags, status: 200
     else
-      render :json => nil
+      render :json => {
+        error: 'User is not a mentor',
+        status: 403
+      }, status: 403
     end
   end
 
@@ -25,14 +28,20 @@ class Api::UserTagsController < ApplicationController
           t_id = found_tag.first.id
           @new_user_tag = current_user.user_tags.new(tag_id: t_id)
           if !@new_user_tag.save
-            return render :json => nil
+            return render :json => {
+              error: 'Failed to save tags data from the server',
+              status: 500
+            }, status: 500
           end
         end
       end
 
-      render :json => UserTag.where(user_id: current_user.id)
+      render :json => UserTag.where(user_id: current_user.id), status: 201
     else
-      render :json => nil
+      render :json => {
+        error: 'User is not a mentor',
+        status: 403
+      }, status: 403
     end
   end
 
