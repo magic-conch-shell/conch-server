@@ -18,7 +18,7 @@ Rails.application.routes.draw do
     resources :user_tags, only: [:index, :create, :destroy]
 
     resources :questions, only: [:create, :show, :destroy], defaults: {format: :json} do
-      resources :answers, only: [:create]
+      resources :answers, only: [:index, :create]
     end
 
     resources :answers, only: [:show, :update, :destroy], defaults: {format: :json} do
