@@ -3,8 +3,14 @@ class Api::UserTagsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def index
-    if (@user_tags = User_Tag.where(user_id: current_user.id))
-      render :json => @user_tags
+    if current_user.is_mentor && (@user_tags = UserTag.where(user_id: current_user.id))
+      @tags = []
+      @user_tags.each do |utag|
+        tag = Tag.find(utag.tag_id)
+        @tags << tag
+      end
+
+      render :json => @tags
     else
       render :json => nil
     end
@@ -14,14 +20,17 @@ class Api::UserTagsController < ApplicationController
     if current_user.is_mentor
       tag_list = params[:tags]
       tag_list.each do |tag_name|
-        t_id = Tag.where(name: tag_name).first.id
-        @new_user_tag = current_user.user_tags.new(tag_id: t_id)
-        if !@new_user_tag.save
-          return render :json => nil
+        found_tag = Tag.where(name: tag_name)
+        if found_tag.size > 0
+          t_id = found_tag.first.id
+          @new_user_tag = current_user.user_tags.new(tag_id: t_id)
+          if !@new_user_tag.save
+            return render :json => nil
+          end
         end
       end
 
-      render :json => User_Tag.where(user_id: current_user.id)
+      render :json => UserTag.where(user_id: current_user.id)
     else
       render :json => nil
     end

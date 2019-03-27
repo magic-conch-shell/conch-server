@@ -12,6 +12,10 @@ class Api::QuestionsController < ApplicationController
 
   def create
     tag_list = params[:tags]
+    if tag_list.size == 0
+      return render :json => nil
+    end
+
     params = question_params
     @question = current_user.questions.new(params)
     @question[:solved] = false

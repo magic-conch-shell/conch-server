@@ -11,6 +11,12 @@ class Api::UsersController < ApplicationController
   end
 
   def update
+    if @user = User.find(params[:id])
+      @user.update_column(:is_mentor, params[:is_mentor])
+      render :json => @user
+    else
+      render :json => nil
+    end
   end
 
   def destroy

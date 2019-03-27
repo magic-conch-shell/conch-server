@@ -1,12 +1,18 @@
+<nav>
+  <% if current_user %>
+    <p>
+      <%= current_user.nickname %> , id: <%= current_user.id %> ,
+      is a mentor: <%= current_user.is_mentor %>
+    </p>
+  <% end %>
+</nav>
+
 <h1>Welcome#index</h1>
-<p><%= current_user %></p>
+<p>see 'views/layouts/application.htm.erb' for more info</p>
 
-<script
-  src="http://code.jquery.com/jquery-3.3.1.min.js"
-  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-  crossorigin="anonymous"></script>
+<hr>
 
-<h3>Register</h3>
+<h3>1. Register</h3>
 <form class="reg-form">
   <label for="nickname">nickname:</label>
   <input class="nickname-field" type="text" name="nickname" placeholder="Nick Name" required />
@@ -20,7 +26,19 @@
   <input type="submit" name="signup" value="sign up" />
 </form>
 
-<h3>Login</h3>
+<ul>
+  <li>fill in the form, press register, and reload the page to see the user info</li>
+  <li>
+    <code>
+      $.ajax("/register", {method: "POST", data: query})
+    </code>
+  </li>
+  <li>query includes 'nickname', email', 'password'</li>
+</ul>
+
+<hr>
+
+<h3>2. Login</h3>
 <form class="login-form">
   <label for="email">email:</label>
   <input class="email-field" type="email" name="email" placeholder="email" required />
@@ -31,82 +49,270 @@
   <input type="submit" name="login" value="log in" />
 </form>
 
-<h3>Logout</h3>
+<ul>
+  <li>log in, and reload the page to see the user info</li>
+  <li>
+    <code>
+      $.ajax("/login", {method: "POST", data: query})
+    </code>
+  </li>
+  <li>query includes 'email', 'password'</li>
+</ul>
+
+<hr>
+
+<h3>3. Logout</h3>
 <button id="logout-button">Logout</button>
 
-<h3>Print Tags</h3>
+<ul>
+  <li>log out, and reload the page to see the user info change</li>
+  <li>
+    <code>
+      $.ajax("/logout", {method: "POST"});
+    </code>
+  </li>
+</ul>
+
+<hr>
+
+<h3>4. Print Tags</h3>
 <button id="tags-button">Print Tags</button>
 
-<h3>Ask Question</h3>
+<ul>
+  <li>open up dev-tools console, and press to print all tags as 'Array'</li>
+  <li>
+    <code>
+      $.ajax("/api/tags").then(data => console.log(data));
+    </code>
+  </li>
+</ul>
+
+<hr>
+
+<h3>5. Ask Question</h3>
+<p><strong>Tag names must be in database to be created.</strong> if not, question is not created, 'null' is returned.</p>
+<p>*Press Tags button in step 4 to see all the tags*</p>
+
 <form class="q-form">
   <label for="title">title:</label>
-  <input class="title-field" type="text" name="title" placeholder="title" required />
+  <input class="title-field" type="text" name="title" placeholder="title" />
 
   <label for="content">content:</label>
   <input class="content-field" type="text" name="content" placeholder="content" required />
 
+  <label for="tags">Tags (separated by comma):</label>
+  <input class="qtag-field" type="text" name="tags" placeholder="tags" required />
+
   <input type="submit" name="submit" value="submit" />
 </form>
 
-<h3>Print Question by ID</h3>
+<ul>
+  <li>when logged in, open dev-tools console, fill in the form and press submit</li>
+  <li>prints 'Object' of question that was submitted</li>
+  <li>
+    <code>
+      $.ajax("/api/questions", {method: "POST", data: query}).then(data => console.log(data));
+    </code>
+  </li>
+  <li>query includes 'title' (optional), 'content'</li>
+</ul>
+
+<hr>
+
+<h3>6. Print Question by ID</h3>
 <form class="qget-form">
-  <label for="id">id:</label>
-  <input class="id-field" type="text" name="id" placeholder="question id" required />
+  <label for="id">question-id:</label>
+  <input class="qid-field" type="text" name="id" placeholder="question id" required />
 
   <input type="submit" name="submit" value="print console" />
 </form>
 
-<script type="text/javascript">
-  $(document).ready(function () {
+<ul>
+  <li>when logged in, open dev-tools console, fill in question-id and press submit</li>
+  <li>prints 'Object' of the question</li>
+  <li>
+    <code>
+      $.ajax(`/api/questions/:id`).then(data => console.log(data));
+    </code>
+  </li>
+</ul>
 
-    $('.reg-form').submit(function (e) {
-      e.preventDefault();
-      const query = $(".reg-form").serialize();
-      $.ajax("/register", {method: "POST", data: query})
-      .then(function (data) {
-        console.log(data);
-      });
-    });
+<hr>
 
-    $('.login-form').submit(function (e) {
-      e.preventDefault();
-      const query = $(".login-form").serialize();
-      $.ajax("/login", {method: "POST", data: query})
-      .then(function (data) {
-        console.log(data);
-      });
-    });
+<h3>7. Print User's Questions by userID</h3>
+<p><strong>Can change this route to not require user-id if that is better</strong></p>
+<form class="qindex-form">
+  <label for="id">user-id:</label>
+  <input class="quid-field" type="text" name="user_id" placeholder="user id" required />
 
-    $('#logout-button').click(function (e) {
-      e.preventDefault();
-      $.ajax("/logout", {method: "POST"});
-    });
+  <input type="submit" name="submit" value="print console" />
+</form>
 
-    $('#tags-button').click(function (e) {
-      e.preventDefault();
-      $.ajax("/api/tags")
-      .then(function (data) {
-        console.log(data);
-      });
-    });
+<ul>
+  <li>when logged in, open dev-tools console, fill in user-id and press submit</li>
+  <li>prints 'Array' of questions by the user-id in console</li>
+  <li>
+    <code>
+      $.ajax(`/api/users/:user_id/questions`).then(data => console.log(data));
+    </code>
+  </li>
+</ul>
 
-    $('.q-form').submit(function (e) {
-      e.preventDefault();
-      const query = $(".q-form").serialize();
-      $.ajax("/api/questions", {method: "POST", data: query})
-      .then(function (data) {
-        console.log(data);
-      });
-    });
+<hr>
 
-    $('.qget-form').submit(function (e) {
-      e.preventDefault();
-      $.ajax(`/api/questions/${$('.id-field').val()}`)
-      .then(function (data) {
-        console.log(data);
-      });
-    });
+<h3>8. Toggle Mentor Status</h3>
+<form class="toggle-mentor-form">
+  <label for="id">user-id:</label>
+  <input class="muid-field" type="text" name="id" placeholder="user id" required />
 
-  });
-</script>
+  <label for="is_mentor">true or false:</label>
+  <input class="is_mentor-field" type="text" name="is_mentor" placeholder="status" required />
 
+  <input type="submit" name="submit" value="toggle" />
+</form>
+
+<ul>
+  <li>when logged in, fill in user-id, status, press submit</li>
+  <li>reload the page to see the user info change</li>
+  <li>
+    <code>
+      $.ajax(`/api/users/:id}`, {method: "PUT", data: query})
+    </code>
+  </li>
+  <li>query includes 'is_mentor', which is true or false (boolean)</li>
+</ul>
+
+<hr>
+
+<h3>9. Specify Mentor's Tags</h3>
+<p><strong>Tag names must be in database to be added.</strong> if not, it will simply not be added.</p>
+<p>*Press Tags button in step 4 to see all the tags*</p>
+<form class="user-tags-form">
+  <label for="tags">Tags (separated by comma):</label>
+  <input class="mtag-field" type="text" name="tags" placeholder="tags" required />
+
+  <input type="submit" name="submit" value="print console" />
+</form>
+
+<ul>
+  <li>when logged in as a mentor, open dev-tools console, fill in tag names separated by comma, press submit</li>
+  <li>prints 'Array' of tags set by the current logged user (mentor) in console</li>
+  <li>
+    <code>
+      $.ajax('/api/user_tags', {method: "POST", data: query})
+    </code>
+  </li>
+  <li>query includes 'tags', which is array of tag names</li>
+</ul>
+
+<hr>
+
+<h3>10. Print Current User's Mentor Tags</h3>
+<button id="mtags-button">Print Tags</button>
+
+<ul>
+  <li>open up dev-tools console, and press to print current user's mentor tags as 'Array'</li>
+  <li>
+    <code>
+      $.ajax("/api/user_tags").then(data => console.log(data));
+    </code>
+  </li>
+</ul>
+
+<hr>
+
+<h3>11. Create Answer to a Question</h3>
+<p><strong>User must be a mentor with tags matching to the question's tag, and not be the creator of that question</strong></p>
+<p> If not, the answer will simply not be created, and 'null' is returned</p>
+
+<form class="a-form">
+  <label for="id">question-id:</label>
+  <input class="a-qid-field" type="text" name="question_id" placeholder="question-id" required />
+
+  <label for="content">content:</label>
+  <input class="a-content-field" type="text" name="content" placeholder="content" required />
+
+  <input type="submit" name="submit" value="submit" />
+</form>
+
+<ul>
+  <li>when logged in, open dev-tools console, fill in the form and press submit</li>
+  <li>prints 'Object' of answer that was submitted</li>
+  <li>
+    <code>
+      $.ajax("/api/questions/:question_id/answers", {method: "POST", data: query}).then(data => console.log(data));
+    </code>
+  </li>
+  <li>query includes 'content'</li>
+</ul>
+
+<hr>
+
+<h3>12. Print Answer by ID</h3>
+<p><strong>Can change this route to require question-id of the answer, which i believe, will be required</strong></p>
+<form class="aget-form">
+  <label for="id">answer-id:</label>
+  <input class="aid-field" type="text" name="id" placeholder="answer id" required />
+
+  <input type="submit" name="submit" value="print console" />
+</form>
+
+<ul>
+  <li>when logged in, open dev-tools console, fill in answer-id and press submit</li>
+  <li>prints 'Object' of the question</li>
+  <li>
+    <code>
+      $.ajax(`/api/answers/:id`).then(data => console.log(data));
+    </code>
+  </li>
+</ul>
+
+<hr>
+
+<h3>13. Print User's Answers by userID</h3>
+<p><strong>Can change this route to not require user-id if that is better</strong></p>
+<form class="aindex-form">
+  <label for="id">user-id:</label>
+  <input class="auid-field" type="text" name="user_id" placeholder="user id" required />
+
+  <input type="submit" name="submit" value="print console" />
+</form>
+
+<ul>
+  <li>when logged in, open dev-tools console, fill in user-id and press submit</li>
+  <li>prints 'Array' of answers by the user-id in console</li>
+  <li>
+    <code>
+      $.ajax(`/api/users/:user_id/answers`).then(data => console.log(data));
+    </code>
+  </li>
+</ul>
+
+<hr>
+
+<h3>14. Select the Answer</h3>
+<form class="toggle-answer-form">
+  <label for="id">answer-id:</label>
+  <input class="asid-field" type="text" name="id" placeholder="answer id" required />
+
+  <label for="selected">true or false:</label>
+  <input class="selected-field" type="text" name="selected" placeholder="status" required />
+
+  <input type="submit" name="submit" value="select" />
+</form>
+
+<ul>
+  <li>when logged in as the creator of the answer's target question, fill in user-id, status, press submit</li>
+  <li>returns 'true' (boolean) if change was successful</li>
+  <li>
+    <code>
+      $.ajax(`/api/answers/:id}`, {method: "PUT", data: query})
+    </code>
+  </li>
+  <li>query includes 'selected', which is true or false (boolean)</li>
+</ul>
+
+<hr>
+
+<br>
+<hr>

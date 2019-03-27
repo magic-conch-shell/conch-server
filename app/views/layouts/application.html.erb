@@ -7,9 +7,161 @@
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <script
+  src="http://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
   </head>
 
   <body>
     <%= yield %>
   </body>
+  <script type="text/javascript">
+  $(document).ready(function () {
+    // 1
+    $('.reg-form').submit(function (e) {
+      e.preventDefault();
+      const query = $(".reg-form").serialize();
+      $.ajax("/register", {method: "POST", data: query})
+      .then(function (data) {
+        console.log(data);
+      });
+    });
+
+    // 2
+    $('.login-form').submit(function (e) {
+      e.preventDefault();
+      const query = $(".login-form").serialize();
+      $.ajax("/login", {method: "POST", data: query})
+      .then(function (data) {
+        console.log(data);
+      });
+    });
+
+    // 3
+    $('#logout-button').click(function (e) {
+      e.preventDefault();
+      $.ajax("/logout", {method: "POST"});
+    });
+
+    // 4
+    $('#tags-button').click(function (e) {
+      e.preventDefault();
+      $.ajax("/api/tags")
+      .then(function (data) {
+        console.log(data);
+      });
+    });
+
+    // 5
+    $('.q-form').submit(function (e) {
+      e.preventDefault();
+      const query = {
+        title: $('.title-field').val(),
+        content: $('.content-field').val(),
+        tags: $('.qtag-field').val().split(",").map(x => x.trim())
+      };
+
+      $.ajax("/api/questions", {method: "POST", data: query})
+      .then(function (data) {
+        console.log(data);
+      });
+    });
+
+    // 6
+    $('.qget-form').submit(function (e) {
+      e.preventDefault();
+      $.ajax(`/api/questions/${$('.qid-field').val()}`)
+      .then(function (data) {
+        console.log(data);
+      });
+    });
+
+    // 7
+    $('.qindex-form').submit(function (e) {
+      e.preventDefault();
+      $.ajax(`/api/users/${$('.quid-field').val()}/questions`)
+      .then(function (data) {
+        console.log(data);
+      });
+    });
+
+    // 8
+    $('.toggle-mentor-form').submit(function (e) {
+      e.preventDefault();
+      const status = $('.is_mentor-field').val().toLowerCase() === "true";
+      var query = {is_mentor: status};
+
+      $.ajax(`/api/users/${$('.muid-field').val()}`, {method: "PUT", data: query})
+      .then(function (data) {
+        console.log(data);
+      });
+    });
+
+    // 9
+    $('.user-tags-form').submit(function (e) {
+      e.preventDefault();
+      const tagNames = $('.mtag-field').val().split(",").map(x => x.trim());
+      var query = {tags: tagNames};
+
+      $.ajax('/api/user_tags', {method: "POST", data: query})
+      .then(function (data) {
+        console.log(data);
+      });
+    });
+
+    // 10
+    $('#mtags-button').click(function (e) {
+      e.preventDefault();
+      $.ajax("/api/user_tags")
+      .then(function (data) {
+        console.log(data);
+      });
+    });
+
+    // 11
+    $('.a-form').submit(function (e) {
+      e.preventDefault();
+      const query = {
+        content: $('.a-content-field').val()
+      };
+
+      $.ajax(`/api/questions/${$('.a-qid-field').val()}/answers`, {method: "POST", data: query})
+      .then(function (data) {
+        console.log(data);
+      });
+    });
+
+    // 12
+    $('.aget-form').submit(function (e) {
+      e.preventDefault();
+      $.ajax(`/api/answers/${$('.aid-field').val()}`)
+      .then(function (data) {
+        console.log(data);
+      });
+    });
+
+    // 13
+    $('.aindex-form').submit(function (e) {
+      e.preventDefault();
+      $.ajax(`/api/users/${$('.auid-field').val()}/answers`)
+      .then(function (data) {
+        console.log(data);
+      });
+    });
+
+    // 14
+    $('.toggle-answer-form').submit(function (e) {
+      e.preventDefault();
+      const status = $('.selected-field').val().toLowerCase() === "true";
+      var query = {selected: status};
+
+      $.ajax(`/api/answers/${$('.asid-field').val()}`, {method: "PUT", data: query})
+      .then(function (data) {
+        console.log(data);
+      });
+    });
+
+  });
+</script>
 </html>
