@@ -396,5 +396,56 @@
 
 <hr>
 
+<h3>18. Print Verify Token status</h3>
+
+<form class="token-form">
+  <label for="email">email:</label>
+  <input class="token-email-field" type="text" name="email" placeholder="your email" required />
+
+  <label for="token">token:</label>
+  <input class="token-field" type="text" name="token" placeholder="token" required />
+
+  <input type="submit" name="submit" value="Print Console" />
+</form>
+
+<ul>
+  <li>fill in email and verification token and press submit to print true or false in the console</li>
+  <li>
+    <code>
+      $.ajax('/api/verify_token', {method: "POST", data: query})
+    </code>
+  </li>
+  <li>query includes 'email', and 'token'</li>
+</ul>
+
+<hr>
+
+<h3>18. Print Reset Password status</h3>
+
+<form class="reset-form">
+  <label for="email">email:</label>
+  <input class="reset-email-field" type="text" name="email" placeholder="your email" required />
+
+  <label for="token">token:</label>
+  <input class="reset-token-field" type="text" name="token" placeholder="token" required />
+
+  <label for="password">password:</label>
+  <input class="reset-password-field" type="password" name="password" placeholder="password" required />
+
+  <input type="submit" name="submit" value="Print Console" />
+</form>
+
+<ul>
+  <li>fill in email and new password and press submit to print true or false in the console</li>
+  <li>
+    <code>
+      $.ajax('/api/password_resets/:id', {method: "POST", data: query})
+    </code>
+  </li>
+  <li>query includes 'email', and 'password', :id param should be a 'token'</li>
+</ul>
+
+<hr>
+
 <br>
 <hr>

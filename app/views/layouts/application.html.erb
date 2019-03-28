@@ -184,7 +184,7 @@
       });
     });
 
-    // 16
+    // 17
     $('.send-form').submit(function (e) {
       e.preventDefault();
       const query = {
@@ -192,6 +192,34 @@
       };
 
       $.ajax('/api/password_resets', {method: "POST", data: query})
+      .then(function (data) {
+        console.log(data);
+      });
+    });
+
+    // 18
+    $('.token-form').submit(function (e) {
+      e.preventDefault();
+      const query = {
+        email: $('.token-email-field').val(),
+        token: $('.token-field').val()
+      };
+
+      $.ajax('/api/verify_token', {method: "POST", data: query})
+      .then(function (data) {
+        console.log(data);
+      });
+    });
+
+    // 18
+    $('.reset-form').submit(function (e) {
+      e.preventDefault();
+      const query = {
+        email: $('.reset-email-field').val(),
+        password: $('.reset-password-field').val()
+      };
+
+      $.ajax(`/api/password_resets/${$('.reset-token-field').val()}`, {method: "PUT", data: query})
       .then(function (data) {
         console.log(data);
       });

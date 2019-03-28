@@ -1,5 +1,4 @@
 class Api::PasswordResetsController < ApplicationController
-  before_action :check_expiration, only: [:edit, :update]
   skip_before_action :verify_authenticity_token
 
   def create
@@ -19,7 +18,8 @@ class Api::PasswordResetsController < ApplicationController
 
   def update
     @user = User.where(email: params[:email]).first
-    if @user && @user.authenticated?(params[:token])
+    check_expiration(@user)
+    if @user && @user.authenticated?(params[:id])
       if params[:password].size < 8
         return render :json => {
           error: 'Password must be at least 8 characters',
@@ -43,8 +43,8 @@ class Api::PasswordResetsController < ApplicationController
 
   private
 
-  def check_expiration
-    if @user.password_reset_expired?
+  def check_expiration(user)
+    if user.password_reset_expired?
       return render :json => {
         error: 'Reset token has been expired',
         status: 400

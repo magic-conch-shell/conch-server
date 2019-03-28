@@ -52,6 +52,10 @@ class User < ApplicationRecord
     BCrypt::Password.new(reset_digest).is_password?(remember_token)
   end
 
+  def password_reset_expired?
+    reset_sent_at < 2.hours.ago
+  end
+
   private
 
   def email_must_contain_alpha
