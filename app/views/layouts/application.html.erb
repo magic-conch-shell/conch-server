@@ -191,7 +191,7 @@
         email: $('.send-email-field').val()
       };
 
-      $.ajax('/api/password_reset', {method: "POST", data: query})
+      $.ajax('/api/password_resets', {method: "POST", data: query})
       .then(function (data) {
         console.log(data);
       });

@@ -388,7 +388,7 @@
   <li>fill in email and press send email to receive password reset token</li>
   <li>
     <code>
-      $.ajax('/api/password_reset', {method: "POST", data: query})
+      $.ajax('/api/password_resets', {method: "POST", data: query})
     </code>
   </li>
   <li>query includes 'email' which should be a string of email address</li>
