@@ -175,10 +175,23 @@
       });
     });
 
-    // 12
+    // 16
     $('.rget-form').submit(function (e) {
       e.preventDefault();
       $.ajax(`/api/answers/${$('.r-aid-field').val()}/ratings`)
+      .then(function (data) {
+        console.log(data);
+      });
+    });
+
+    // 16
+    $('.send-form').submit(function (e) {
+      e.preventDefault();
+      const query = {
+        email: $('.send-email-field').val()
+      };
+
+      $.ajax('/api/password_reset', {method: "POST", data: query})
       .then(function (data) {
         console.log(data);
       });

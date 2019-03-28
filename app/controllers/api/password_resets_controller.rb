@@ -1,5 +1,6 @@
 class Api::PasswordResetsController < ApplicationController
   before_action :check_expiration, only: [:edit, :update]
+  skip_before_action :verify_authenticity_token
 
   def create
     @user = User.where(email: params[:email]).first

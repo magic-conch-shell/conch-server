@@ -375,5 +375,26 @@
 
 <hr>
 
+<h3>17. Send Password Reset Email</h3>
+
+<form class="send-form">
+  <label for="email">email:</label>
+  <input class="send-email-field" type="text" name="email" placeholder="your email" required />
+
+  <input type="submit" name="submit" value="Send Email" />
+</form>
+
+<ul>
+  <li>fill in email and press send email to receive password reset token</li>
+  <li>
+    <code>
+      $.ajax('/api/password_reset', {method: "POST", data: query})
+    </code>
+  </li>
+  <li>query includes 'email' which should be a string of email address</li>
+</ul>
+
+<hr>
+
 <br>
 <hr>
