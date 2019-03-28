@@ -3,6 +3,12 @@ class RegisterController < ApplicationController
 
   def create
     session[:user_id] = nil
+    if params[:password].size < 8
+      return render :json => {
+        error: 'Password must be at least 8 characters',
+        status: 400
+      }, status: 400
+    end
     @user = User.new(user_params)
     @user[:points] = 0
     @user[:is_mentor] = false

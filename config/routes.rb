@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
   namespace :api do
+    get 'verify_token/create'
+  end
+  namespace :api do
     get 'password_resets/create'
     get 'password_resets/update'
   end
@@ -32,6 +35,7 @@ Rails.application.routes.draw do
     resources :tags, except: [:edit, :new, :update], defaults: {format: :json}
 
     resources :password_resets, only: [:create, :update]
+    resources :verify_token, only: [:create]
   end
 
   post '/login' => 'sessions#create'
