@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
   namespace :api do
+    get 'password_resets/create'
+    get 'password_resets/update'
+  end
+  namespace :api do
     get 'ratings/index'
     get 'ratings/create'
   end
@@ -26,6 +30,8 @@ Rails.application.routes.draw do
     end
 
     resources :tags, except: [:edit, :new, :update], defaults: {format: :json}
+
+    resources :password_resets, only: [:create, :update]
   end
 
   post '/login' => 'sessions#create'

@@ -63,9 +63,8 @@ class Api::QuestionsController < ApplicationController
   end
 
   def create_qtag(question, tags)
-    tags.each do |tag_name|
-      t_id = Tag.where(name: tag_name).first.id
-      question.question_tags.create!(tag_id: t_id)
+    tags.each do |t_id|
+      question.question_tags.create!(tag_id: t_id.to_i) if Tag.find(t_id.to_i)
     end
   end
 end

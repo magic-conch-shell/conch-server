@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   has_secure_password
+  attr_accessor :reset_token
 
   has_many :questions
   has_many :ratings
@@ -24,6 +25,17 @@ class User < ApplicationRecord
     # user = User.find_by_email(log_email.strip)
     user = User.where('lower(email) = ?', log_email.strip.downcase).first
     @newUser = user if user && user.authenticate(log_password)
+  end
+
+  def create_reset_digest
+    self.reset_token = User.new_token
+    update_attribute(:reset_digest,  User.digest(reset_token))
+    update_attribute(:reset_sent_at, Time.zone.now)
+  end
+
+  # Sends password reset email.
+  def send_password_reset_email
+    UserMailer.password_reset(self).deliver_now
   end
 
   private
