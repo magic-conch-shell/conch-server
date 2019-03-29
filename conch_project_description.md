@@ -93,6 +93,10 @@ The Magic Conch Shell is a web application where users can ask 'ANY' questions b
   * I want to be notified when I get an answer,
   * Because I do not like to be constantly checking for if I got one
 
+* As a User / Mentor,
+  * I want to be able to submit custom tags,
+  * Because the tag may not exist yet
+  
 * As a Mentor,
   * I want to see the rating of my answer,
   * Because I want to know how well I am doing and reflect on it
@@ -101,3 +105,10 @@ The Magic Conch Shell is a web application where users can ask 'ANY' questions b
   * I want to be notified when I am matched to a question
   * Because I do not like to be constantly checking for if I got a match
 
+* As a Mentor,
+  * I want to be able to view statistics about my answer history
+  * Because I want to understand my work history and how to spend my time
+
+* As a Mentor,
+  * I want to be able to define which categories I belong to
+  * Because I only know about those categories
