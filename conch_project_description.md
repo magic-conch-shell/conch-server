@@ -93,10 +93,6 @@ The Magic Conch Shell is a web application where users can ask 'ANY' questions b
   * I want to be notified when I get an answer,
   * Because I do not like to be constantly checking for if I got one
 
-* As a User,
-  * I want to get in the queue for question/answering,
-  * Because I want to line up and wait for my turn to get an answer/post an answer
-
 * As a Mentor,
   * I want to see the rating of my answer,
   * Because I want to know how well I am doing and reflect on it
