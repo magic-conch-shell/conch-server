@@ -95,9 +95,9 @@ The Magic Conch Shell is a web application where users can ask 'ANY' questions b
   * I want to be notified when I get an answer,
   * Because I do not like to be constantly checking for if I got one
 
-* As a User,
-  * I want to get in the queue for question/answering,
-  * Because I want to line up and wait for my turn to get an answer/post an answer
+* As a User / Mentor,
+  * I want to be able to submit custom tags,
+  * Because the tag may not exist yet
 
 * As a Mentor,
   * I want to see the rating of my answer,
@@ -116,6 +116,14 @@ The Magic Conch Shell is a web application where users can ask 'ANY' questions b
   * Because I want to handle user acounts for:
     * Banning malicious user, analyze user data, see payment histories
 
+* As a Mentor,
+  * I want to be able to view statistics about my answer history
+  * Because I want to understand my work history and how to spend my time
+
+* As a Mentor,
+  * I want to be able to define which categories I belong to
+  * Because I only know about those categories
+
 ## Demo
 
 https://www.youtube.com/watch?v=Lu5SJcNp0J0
@@ -126,4 +134,3 @@ https://www.youtube.com/watch?v=Lu5SJcNp0J0
 * If mentor's rating is too low, they cannot get paid
 * Demo, talk about user abusing cases
 * Data analysis
-
