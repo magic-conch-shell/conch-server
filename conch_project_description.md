@@ -18,6 +18,8 @@ The Magic Conch Shell is a web application where users can ask 'ANY' questions b
 
 * Users can see the payment/earnings history, their ratings and points
 
+* Users can request to reset password through verification link on email
+
 ### Team Members: Scott Donelly, Yunsung Oh
 
 ### Target Audience
@@ -104,4 +106,24 @@ The Magic Conch Shell is a web application where users can ask 'ANY' questions b
 * As a Mentor,
   * I want to be notified when I am matched to a question
   * Because I do not like to be constantly checking for if I got a match
+
+* As a User,
+  * I want to use microphone to auto-type the question
+  * Because I am too lazy to type
+
+* Stretch: As an Admin,
+  * I want to be able to have a dashboard to see all the users
+  * Because I want to handle user acounts for:
+    * Banning malicious user, analyze user data, see payment histories
+
+## Demo
+
+https://www.youtube.com/watch?v=Lu5SJcNp0J0
+
+###Things to do
+
+* Convert users to ask questions as well while waiting
+* If mentor's rating is too low, they cannot get paid
+* Demo, talk about user abusing cases
+* Data analysis
 
