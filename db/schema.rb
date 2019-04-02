@@ -91,7 +91,7 @@ ActiveRecord::Schema.define(version: 2019_04_02_152011) do
     t.datetime "updated_at", null: false
     t.string "reset_digest"
     t.datetime "reset_sent_at"
-    t.string "avatar", default: "https://www.wittenberg.edu/sites/default/files/2017-11/nouser_0.jpg"
+    t.string "avatar"
   end
 
   add_foreign_key "answers", "questions"
