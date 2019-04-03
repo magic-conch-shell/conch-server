@@ -21,6 +21,10 @@ class Api::UsersController < ApplicationController
       elsif params[:nickname]
         @user.update_column(:nickname, params[:is_mentor])
         render :json => @user, status: 200
+      elsif params[:avatar]
+        @user.profile_picture.purge
+        @user.profile_picture.attach(params[:avatar])
+        render :json => @user, status: 200
       end
     else
       render :json => {

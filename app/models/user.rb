@@ -2,6 +2,8 @@ class User < ApplicationRecord
   has_secure_password
   attr_accessor :reset_token
 
+  has_one_attached :profile_picture
+
   has_many :questions
   has_many :ratings
   has_many :user_tags

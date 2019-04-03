@@ -447,5 +447,29 @@
 
 <hr>
 
+<h3>19. Change User Avatar</h3>
+<form class="change-avatar-form">
+  <label for="id">user-id:</label>
+  <input class="avaid-field" type="text" name="id" placeholder="user id" required />
+
+  <label for="avatar">Select Image:</label>
+  <input class="ava-field" type="file" name="avatar" required />
+
+  <input type="submit" name="submit" value="toggle" />
+</form>
+
+<ul>
+  <li>when logged in, choose image, and press submit</li>
+  <li>the console will print current user data</li>
+  <li>
+    <code>
+      $.ajax(`/api/users/:id}`, {method: "PUT", data: query})
+    </code>
+  </li>
+  <li>query includes 'avatar', which is the uploaded image</li>
+</ul>
+
+<hr>
+
 <br>
 <hr>

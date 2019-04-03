@@ -225,6 +225,28 @@
       });
     });
 
+    // 19
+    $('.change-avatar-form').submit(function (e) {
+      e.preventDefault();
+      // var fileToUpload = $('.ava-field').prop('files')[0];
+      var fileToUpload = $('.ava-field').prop('files')[0];
+      const query = {
+        avatar: fileToUpload
+      };
+      console.log(fileToUpload);
+
+      // var fileReader = new FileReader();
+      // fileReader.onload = function () {
+      //   var data = fileReader.result;
+      // };
+      // console.log(fileReader.readAsDataURL($('.ava-field').prop('files')[0]));
+
+      $.ajax(`/api/users/${$('.avaid-field').val()}`, {method: "PUT", data: query})
+      .then(function (data) {
+        console.log(data);
+      });
+    });
+
   });
 </script>
 </html>
