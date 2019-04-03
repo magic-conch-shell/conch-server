@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
   namespace :api do
+    get 'question_tags/index'
+  end
+  namespace :api do
     get 'verify_token/create'
   end
   namespace :api do
@@ -26,6 +29,7 @@ Rails.application.routes.draw do
 
     resources :questions, only: [:create, :show, :destroy], defaults: {format: :json} do
       resources :answers, only: [:index, :create]
+      resources :tags, only: [:index]
     end
 
     resources :answers, only: [:show, :update, :destroy], defaults: {format: :json} do

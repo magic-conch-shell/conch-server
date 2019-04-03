@@ -15,8 +15,13 @@ class Api::UsersController < ApplicationController
 
   def update
     if @user = User.find(params[:id])
-      @user.update_column(:is_mentor, params[:is_mentor])
-      render :json => @user, status: 200
+      if params[:is_mentor]
+        @user.update_column(:is_mentor, params[:is_mentor])
+        render :json => @user, status: 200
+      elsif params[:nickname]
+        @user.update_column(:nickname, params[:is_mentor])
+        render :json => @user, status: 200
+      end
     else
       render :json => {
         error: 'No user found with matching ID',
