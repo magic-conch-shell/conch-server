@@ -4,7 +4,7 @@ class Api::QuestionsController < ApplicationController
 
   def index
     if (@questions = Question.where(user_id: params[:user_id]))
-      render :json => @questions, status: 200
+      render :json => @questions, :methods => :tags, status: 200
     else
       render :json => {
         error: 'Failed to retrieve question data from the server',
