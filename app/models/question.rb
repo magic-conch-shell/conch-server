@@ -7,4 +7,8 @@ class Question < ApplicationRecord
   validates :user_id, presence: true
   validates :content, presence: true
   validates :solved, inclusion: { in: [true, false] }
+
+  def tags
+    question_tags.map { |tag| tag[:tag_id] }
+  end
 end
