@@ -230,9 +230,7 @@
       e.preventDefault();
       // var fileToUpload = $('.ava-field').prop('files')[0];
       var fileToUpload = $('.ava-field').prop('files')[0];
-      const query = {
-        avatar: fileToUpload
-      };
+      const query = $(".change-avatar-form").serialize();
       console.log(fileToUpload);
 
       // var fileReader = new FileReader();
