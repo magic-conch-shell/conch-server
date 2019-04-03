@@ -40,9 +40,8 @@ class Api::QuestionsController < ApplicationController
 
   def show
     @question = Question.find(params[:id])
-    @tags = Tag.where(question_id: params[:id])
-    if @question && @tags && (@question.user_id == current_user.id || current_user.is_mentor)
-      render :json => [@question, @tags], status: 200
+    if @question && (@question.user_id == current_user.id || current_user.is_mentor)
+      render :json => @question, :methods => :tags, status: 200
     else
       render :json => {
         error: 'Unrelated user to access question data',
