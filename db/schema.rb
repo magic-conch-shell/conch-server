@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_03_201645) do
+ActiveRecord::Schema.define(version: 2019_04_04_040712) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -57,6 +57,15 @@ ActiveRecord::Schema.define(version: 2019_04_03_201645) do
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
+  create_table "question_statuses", force: :cascade do |t|
+    t.bigint "question_id"
+    t.string "status"
+    t.integer "mentor_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["question_id"], name: "index_question_statuses_on_question_id"
+  end
+
   create_table "question_tags", force: :cascade do |t|
     t.bigint "question_id"
     t.bigint "tag_id"
@@ -73,7 +82,6 @@ ActiveRecord::Schema.define(version: 2019_04_03_201645) do
     t.boolean "solved"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "status", default: "SUBMITTED"
     t.boolean "is_dirty", default: false
     t.index ["user_id"], name: "index_questions_on_user_id"
   end
@@ -122,6 +130,7 @@ ActiveRecord::Schema.define(version: 2019_04_03_201645) do
   add_foreign_key "answers", "users"
   add_foreign_key "comments", "answers"
   add_foreign_key "comments", "users"
+  add_foreign_key "question_statuses", "questions"
   add_foreign_key "question_tags", "questions"
   add_foreign_key "question_tags", "tags"
   add_foreign_key "questions", "users"

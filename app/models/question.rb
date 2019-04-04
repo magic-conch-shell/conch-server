@@ -3,6 +3,7 @@ class Question < ApplicationRecord
 
   has_many :question_tags
   has_many :answers
+  has_one :question_statuses
 
   validates :user_id, presence: true
   validates :content, presence: true

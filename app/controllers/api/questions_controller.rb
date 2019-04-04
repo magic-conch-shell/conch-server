@@ -28,6 +28,7 @@ class Api::QuestionsController < ApplicationController
 
     if @question.save
       create_qtag(@question, tag_list)
+      create_qstatus(@question, tag_list)
 
       render :json => @question, status: 201
     else
@@ -65,6 +66,20 @@ class Api::QuestionsController < ApplicationController
   def create_qtag(question, tags)
     tags.each do |t_id|
       question.question_tags.create!(tag_id: t_id.to_i) if Tag.find(t_id.to_i)
+    end
+  end
+
+  def create_qstatus(question, tags)
+    qstatus = question.question_statuses.create!(status: 'SUBMITTED')
+    mstatus = MentorStatus.order('created_at DESC').where(status: true)
+    mstatus.each do |mentor|
+      UserTag.where(mentor.user_id).each do |utag|
+        if tags.include?(utag)
+          mentor.update_column(:status, false)
+          qstatus.update_column(:status, 'ANSWERED')
+          return
+        end
+      end
     end
   end
 end
