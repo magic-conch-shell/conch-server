@@ -245,6 +245,15 @@
       });
     });
 
+    // 20
+    $('#join-button').click(function (e) {
+      e.preventDefault();
+      $.ajax("/api/join_queue", {method: "POST"})
+      .then(data => {
+        console.log(data);
+      });
+    });
+
   });
 </script>
 </html>

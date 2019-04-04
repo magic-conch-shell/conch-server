@@ -9,6 +9,7 @@ class User < ApplicationRecord
   has_many :user_tags
   has_many :answers
   has_many :comments
+  has_one :mentor_status
 
   validates :nickname, presence: true
   validates :email, presence: true, uniqueness: true

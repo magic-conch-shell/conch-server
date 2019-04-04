@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
   namespace :api do
+    get 'join_queue/create'
+  end
+  namespace :api do
     get 'question_tags/index'
   end
   namespace :api do
@@ -40,6 +43,8 @@ Rails.application.routes.draw do
 
     resources :password_resets, only: [:create, :update]
     resources :verify_token, only: [:create]
+
+    resources :join_queue, only: [:create]
   end
 
   post '/login' => 'sessions#create'
