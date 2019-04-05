@@ -29,8 +29,9 @@ class SessionsController < ApplicationController
         }, status: 500
       end
     end
+    uid = session[:user_id]
     session[:user_id] = nil
-    render :json => nil, status: 204
+    render :json => uid, status: 204
   end
 
   private

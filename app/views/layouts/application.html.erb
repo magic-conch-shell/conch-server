@@ -18,6 +18,10 @@
   </body>
   <script type="text/javascript">
   $(document).ready(function () {
+    var $pubnub = new PubNub({
+      subscribeKey : 'sub-c-e116d1fe-57c2-11e9-94f2-3600c194fb1c'
+    });
+
     // 1
     $('.reg-form').submit(function (e) {
       e.preventDefault();
@@ -25,6 +29,9 @@
       $.ajax("/register", {method: "POST", data: query})
       .then(function (data) {
         console.log(data);
+        $pubnub.subscribe({
+          channels: [`user-${data.id}`]
+        });
       });
     });
 
@@ -35,13 +42,21 @@
       $.ajax("/login", {method: "POST", data: query})
       .then(function (data) {
         console.log(data);
+        $pubnub.subscribe({
+          channels: [`user-${data.id}`]
+        });
       });
     });
 
     // 3
     $('#logout-button').click(function (e) {
       e.preventDefault();
-      $.ajax("/logout", {method: "POST"});
+      $.ajax("/logout", {method: "POST"})
+      .then(function (data) {
+        $pubnub.subscribe({
+          channels: [`user-${data}`]
+        });
+      });
     });
 
     // 4

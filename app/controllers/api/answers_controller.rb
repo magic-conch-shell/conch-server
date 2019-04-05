@@ -75,11 +75,19 @@ class Api::AnswersController < ApplicationController
         @question.update_column(:solved, true)
 
         qstatus.update_column(:status, 'RESOLVED')
+        $pubnub.publish(
+          channel: "user-" + "#{@answer.user_id}",
+          message: { STATUS: 'SELECTED' }
+        )
       else
         @question.update_column(:solved, false)
 
         qstatus.update_column(:status, 'SUBMITTED')
         check_match(@question)
+        $pubnub.publish(
+          channel: "user-" + "#{@answer.user_id}",
+          message: { STATUS: 'PASSED' }
+        )
       end
       render :json => true, status: 200
     else
@@ -102,6 +110,12 @@ class Api::AnswersController < ApplicationController
     qstatus.update_column(:status, 'ANSWERED')
     mstatus.update_column(:answering, false)
 
+    $pubnub.publish(
+      channel: "user-" + "#{question.user_id}",
+      message: { STATUS: 'ANSWERED' }
+    )
+    question.update_column(:is_dirty, true)
+
     tags = UserTag.where(user_id: current_user.id).map { |utag| utag.tag_id }
     qstatus = QuestionStatus.order('updated_at ASC').where(status: 'SUBMITTED')
     qstatus.each do |quest|
@@ -113,6 +127,16 @@ class Api::AnswersController < ApplicationController
         mstatus.update_column(:answering, true)
         quest.update_column(:status, 'ACCEPTED')
         quest.update_column(:mentor_id, mstatus.user_id)
+
+        $pubnub.publish(
+          channel: "user-" + "#{current_user.id}",
+          message: { STATUS: 'MATCHED', question_id: quest.question_id }
+        )
+        $pubnub.publish(
+          channel: "user-" + "#{quid}",
+          message: { STATUS: 'ACCEPTED', question_id: quest.question_id }
+        )
+        Question.find(quest.question_id).update_column(:is_dirty, true)
         return
       end
     end
@@ -128,6 +152,15 @@ class Api::AnswersController < ApplicationController
         mentor.update_column(:answering, true)
         qstatus.update_column(:status, 'ACCEPTED')
         qstatus.update_column(:mentor_id, mentor.user_id)
+
+        $pubnub.publish(
+          channel: "user-" + "#{current_user.id}",
+          message: { status: 'ACCEPTED', question_id: question.id }
+        )
+        $pubnub.publish(
+          channel: "user-" + "#{mentor.user_id}",
+          message: { status: 'MATCHED', question_id: question.id }
+        )
         return
       end
     end

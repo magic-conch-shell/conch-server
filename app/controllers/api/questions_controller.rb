@@ -42,6 +42,7 @@ class Api::QuestionsController < ApplicationController
   def show
     @question = Question.find(params[:id])
     if @question && (@question.user_id == current_user.id || current_user.is_mentor)
+      @question.update_column(:is_dirty, false)
       render :json => @question, :methods => :tags, status: 200
     else
       render :json => {
@@ -80,6 +81,15 @@ class Api::QuestionsController < ApplicationController
         mentor.update_column(:answering, true)
         qstatus.update_column(:status, 'ACCEPTED')
         qstatus.update_column(:mentor_id, mentor.user_id)
+
+        $pubnub.publish(
+          channel: "user-" + "#{current_user.id}",
+          message: { STATUS: 'ACCEPTED', question_id: question.id }
+        )
+        $pubnub.publish(
+          channel: "user-" + "#{mentor.user_id}",
+          message: { STATUS: 'MATCHED', question_id: question.id }
+        )
         return
       end
     end
