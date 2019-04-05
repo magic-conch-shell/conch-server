@@ -1,0 +1,11 @@
+# Logfile created on 2019-04-05 13:06:35 -0400 by logger.rb/66358
+D, [2019-04-05T13:06:35.767412 #93963] DEBUG -- Pubnub::Telementry: Initialized Telemetry
+D, [2019-04-05T13:06:35.767768 #93963] DEBUG -- Pubnub::Client: Created new Pubnub::Client instance. Version: 4.0.27
+D, [2019-04-05T13:07:02.631580 #94967] DEBUG -- Pubnub::Telementry: Initialized Telemetry
+D, [2019-04-05T13:07:02.631760 #94967] DEBUG -- Pubnub::Client: Created new Pubnub::Client instance. Version: 4.0.27
+D, [2019-04-05T13:08:04.678453 #95464] DEBUG -- Pubnub::Telementry: Initialized Telemetry
+D, [2019-04-05T13:08:04.678624 #95464] DEBUG -- Pubnub::Client: Created new Pubnub::Client instance. Version: 4.0.27
+D, [2019-04-05T13:08:21.994309 #95817] DEBUG -- Pubnub::Telementry: Initialized Telemetry
+D, [2019-04-05T13:08:21.994485 #95817] DEBUG -- Pubnub::Client: Created new Pubnub::Client instance. Version: 4.0.27
+D, [2019-04-05T13:46:44.552002 #1445] DEBUG -- Pubnub::Telementry: Initialized Telemetry
+D, [2019-04-05T13:46:44.552180 #1445] DEBUG -- Pubnub::Client: Created new Pubnub::Client instance. Version: 4.0.27

@@ -33,6 +33,9 @@ gem 'bcrypt', '~> 3.1.7'
 # aws s3 for avatar uploading
 gem 'aws-sdk'
 
+# PubNub for notification
+gem 'pubnub', '~> 4.0.21'
+
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 

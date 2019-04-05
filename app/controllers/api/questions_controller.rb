@@ -70,11 +70,12 @@ class Api::QuestionsController < ApplicationController
   end
 
   def create_qstatus(question, tags)
+    tags_int = tags.map { |x| x.to_i }
     qstatus = QuestionStatus.create!(question_id: question.id, status: 'SUBMITTED')
     mstatus = MentorStatus.order('updated_at ASC').where(answering: false)
     mstatus.each do |mentor|
       utagid = UserTag.where(user_id: mentor.user_id).map { |x| x.tag_id }
-      matches = utagid & tags
+      matches = utagid & tags_int
       if matches.size > 0 && current_user.id != mentor.user_id
         mentor.update_column(:answering, true)
         qstatus.update_column(:status, 'ACCEPTED')

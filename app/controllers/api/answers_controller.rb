@@ -79,6 +79,7 @@ class Api::AnswersController < ApplicationController
         @question.update_column(:solved, false)
 
         qstatus.update_column(:status, 'SUBMITTED')
+        check_match(@question)
       end
       render :json => true, status: 200
     else
@@ -100,5 +101,35 @@ class Api::AnswersController < ApplicationController
 
     qstatus.update_column(:status, 'ANSWERED')
     mstatus.update_column(:answering, false)
+
+    tags = UserTag.where(user_id: current_user.id).map { |utag| utag.tag_id }
+    qstatus = QuestionStatus.order('updated_at ASC').where(status: 'SUBMITTED')
+    qstatus.each do |quest|
+      qtagid = QuestionTag.where(question_id: quest.question_id).map { |x| x.tag_id }
+      matches = qtagid & tags
+      quid = Question.find(quest.question_id).user_id
+
+      if matches.size > 0 && current_user.id != quid
+        mstatus.update_column(:answering, true)
+        quest.update_column(:status, 'ACCEPTED')
+        quest.update_column(:mentor_id, mstatus.user_id)
+        return
+      end
+    end
+  end
+
+  def check_match(question)
+    tags = question.question_tags.map { |x| x.tag_id }
+    mstatus = MentorStatus.order('updated_at ASC').where(answering: false)
+    mstatus.each do |mentor|
+      utagid = UserTag.where(user_id: mentor.user_id).map { |x| x.tag_id }
+      matches = utagid & tags
+      if matches.size > 0 && current_user.id != mentor.user_id
+        mentor.update_column(:answering, true)
+        qstatus.update_column(:status, 'ACCEPTED')
+        qstatus.update_column(:mentor_id, mentor.user_id)
+        return
+      end
+    end
   end
 end

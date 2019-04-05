@@ -20,6 +20,15 @@ class SessionsController < ApplicationController
   end
 
   def destroy
+    if current_user.mentor_status
+      unless current_user.mentor_status.destroy!
+        session[:user_id] = nil
+        return render :json => {
+          error: 'Server failed to remove mentor from the queue',
+          status: 500
+        }, status: 500
+      end
+    end
     session[:user_id] = nil
     render :json => nil, status: 204
   end

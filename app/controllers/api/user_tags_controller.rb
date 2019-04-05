@@ -22,12 +22,10 @@ class Api::UserTagsController < ApplicationController
   def create
     if current_user.is_mentor
       tag_list = params[:tags]
-      tag_list.each do |tag_name|
-        found_tag = Tag.where(name: tag_name)
-        if found_tag.size > 0
-          t_id = found_tag.first.id
-          @new_user_tag = current_user.user_tags.new(tag_id: t_id)
-          if !@new_user_tag.save
+      tag_list.each do |tagid|
+        if Tag.find(tagid)
+          @new_user_tag = current_user.user_tags.new(tag_id: tagid)
+          unless @new_user_tag.save
             return render :json => {
               error: 'Failed to save tags data from the server',
               status: 500
