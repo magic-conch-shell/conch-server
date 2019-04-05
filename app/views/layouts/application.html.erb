@@ -53,7 +53,7 @@
       e.preventDefault();
       $.ajax("/logout", {method: "POST"})
       .then(function (data) {
-        $pubnub.subscribe({
+        $pubnub.unsubscribe({
           channels: [`user-${data}`]
         });
       });
