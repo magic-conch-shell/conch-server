@@ -75,7 +75,7 @@ class Api::QuestionsController < ApplicationController
     mstatus.each do |mentor|
       utagid = UserTag.where(user_id: mentor.user_id).map { |x| x.tag_id }
       matches = utagid & tags
-      if matches.size > 0
+      if matches.size > 0 && current_user.id != mentor.user_id
         mentor.update_column(:answering, true)
         qstatus.update_column(:status, 'ACCEPTED')
         qstatus.update_column(:mentor_id, mentor.user_id)

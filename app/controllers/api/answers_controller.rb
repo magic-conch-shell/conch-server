@@ -3,13 +3,17 @@ class Api::AnswersController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def index
-    if (@answers = Answer.order('created_at ASC').where(user_id: params[:user_id])) && current_user.id == params[:user_id].to_i
-      render :json => @answers, status: 200
+    if params[:user_id]
+      if (@answers = Answer.order('created_at ASC').where(user_id: params[:user_id])) && current_user.id == params[:user_id].to_i
+        render :json => @answers, status: 200
+      else
+        render :json => {
+          error: 'User is not a mentor with access to this answer',
+          status: 403
+        }, status: 403
+      end
     else
-      render :json => {
-        error: 'User is not a mentor with access to this answer',
-        status: 403
-      }, status: 403
+      d
     end
   end
 

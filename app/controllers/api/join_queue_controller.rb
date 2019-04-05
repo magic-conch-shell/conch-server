@@ -31,10 +31,11 @@ class Api::JoinQueueController < ApplicationController
     tags = UserTag.where(user_id: current_user.id).map { |utag| utag.tag_id }
     qstatus = QuestionStatus.order('updated_at ASC').where(status: 'SUBMITTED')
     qstatus.each do |question|
-      qtagid = QuestionTag.where(user_id: mentor.user_id).map { |x| x.tag_id }
+      qtagid = QuestionTag.where(question_id: question.question_id).map { |x| x.tag_id }
       matches = qtagid & tags
+      quid = Question.find(question.question_id).user_id
 
-      if matches.size > 0
+      if matches.size > 0 && current_user.id != quid
         mstatus.update_column(:answering, true)
         question.update_column(:status, 'ACCEPTED')
         question.update_column(:mentor_id, mstatus.user_id)
