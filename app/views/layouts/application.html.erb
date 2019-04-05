@@ -11,6 +11,7 @@
   src="http://code.jquery.com/jquery-3.3.1.min.js"
   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
   crossorigin="anonymous"></script>
+  <script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.8.0.min.js"></script>
   </head>
 
   <body>
@@ -20,6 +21,12 @@
   $(document).ready(function () {
     var $pubnub = new PubNub({
       subscribeKey : 'sub-c-e116d1fe-57c2-11e9-94f2-3600c194fb1c'
+    });
+
+    $pubnub.addListener({
+      message: function (msg) {
+        console.log(msg.message);
+      }
     });
 
     // 1
