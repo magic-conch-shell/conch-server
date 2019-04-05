@@ -13,7 +13,14 @@ class Api::AnswersController < ApplicationController
         }, status: 403
       end
     else
-      d
+      if (@answers = Answer.order('created_at ASC').where(question_id: params[:question_id])) && current_user.id == Question.find(params[:question_id]).user_id
+        render :json => @answers, status: 200
+      else
+        render :json => {
+          error: 'User is not authorized to access this answer',
+          status: 403
+        }, status: 403
+      end
     end
   end
 
