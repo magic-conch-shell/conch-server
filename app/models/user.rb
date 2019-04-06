@@ -59,6 +59,10 @@ class User < ApplicationRecord
     reset_sent_at < 2.hours.ago
   end
 
+  def tags
+    user_tags.map { |tag| tag[:tag_id] }
+  end
+
   private
 
   def email_must_contain_alpha
