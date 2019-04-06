@@ -36,6 +36,9 @@ gem 'aws-sdk'
 # PubNub for notification
 gem 'pubnub', '~> 4.0.21'
 
+# Unicorn for nginx hosting
+gem 'unicorn'
+
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 
