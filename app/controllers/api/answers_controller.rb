@@ -1,6 +1,7 @@
 class Api::AnswersController < ApplicationController
   before_action :authorize
   skip_before_action :verify_authenticity_token
+  before_action :set_headers
 
   def index
     if params[:user_id]
