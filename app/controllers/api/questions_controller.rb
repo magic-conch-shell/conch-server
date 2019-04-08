@@ -84,11 +84,11 @@ class Api::QuestionsController < ApplicationController
 
         $pubnub.publish(
           channel: "user-" + "#{current_user.id}" + "-client",
-          message: { question_id: question.id }
+          message: { status: 'ACCEPTED', question_id: question.id }
         )
         $pubnub.publish(
           channel: "user-" + "#{mentor.user_id}" + "-mentor",
-          message: { question_id: question.id }
+          message: { status: 'ACCEPTED', question_id: question.id }
         )
         return
       end

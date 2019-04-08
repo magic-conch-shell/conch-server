@@ -42,11 +42,11 @@ class Api::JoinQueueController < ApplicationController
 
         $pubnub.publish(
           channel: "user-" + "#{current_user.id}" + "-mentor",
-          message: { question_id: question.question_id }
+          message: { status: 'ACCEPTED', question_id: question.question_id }
         )
         $pubnub.publish(
           channel: "user-" + "#{quid}" + "-client",
-          message: { question_id: question.question_id }
+          message: { status: 'ACCEPTED', question_id: question.question_id }
         )
         return
       end
