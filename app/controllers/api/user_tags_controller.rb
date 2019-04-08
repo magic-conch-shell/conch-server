@@ -44,5 +44,22 @@ class Api::UserTagsController < ApplicationController
   end
 
   def destroy
+    if current_user.is_mentor
+      tagid = params[:id]
+      if Tag.find(tagid)
+        @user_tag = current_user.user_tags.where(tag_id: tagid)
+        p @user_tag
+        if @user_tag
+          unless @user_tag.destroy_all
+            return render :json => true, status: 200
+          end
+        else
+          return render :json => {
+            error: 'Failed to delete tag from user',
+            status: 500
+          }, status: 500
+        end
+      end
+    end
   end
 end
