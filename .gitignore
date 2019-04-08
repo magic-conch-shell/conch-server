@@ -7,6 +7,7 @@
 database.yml
 # Ignore bundler config.
 /.bundle
+conch-server.pem
 
 # Ignore the default SQLite database.
 /db/*.sqlite3
