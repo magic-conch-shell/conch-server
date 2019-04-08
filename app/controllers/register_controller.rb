@@ -21,7 +21,7 @@ class RegisterController < ApplicationController
     else
       if @user.save
         session[:user_id] = @user.id
-        render :json => @user, status: 200
+        render :json => @user, :methods => :tags, status: 200
       else
         render :json => {
           error: 'Failed to create user data from the server',

@@ -36,6 +36,13 @@ gem 'aws-sdk'
 # PubNub for notification
 gem 'pubnub', '~> 4.0.21'
 
+# Unicorn for nginx hosting
+gem 'unicorn'
+
+# Rails CORS support
+gem 'rack-cors'
+
+
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 

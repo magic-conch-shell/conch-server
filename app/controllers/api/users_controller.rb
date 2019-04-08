@@ -4,7 +4,7 @@ class Api::UsersController < ApplicationController
 
   def show
     if @user = User.find(params[:id])
-      render :json => @user, status: 200
+      render :json => @user, :methods => :tags, status: 200
     else
       render :json => {
         error: 'No user found with matching ID',
