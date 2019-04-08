@@ -83,12 +83,12 @@ class Api::QuestionsController < ApplicationController
         qstatus.update_column(:mentor_id, mentor.user_id)
 
         $pubnub.publish(
-          channel: "user-" + "#{current_user.id}",
-          message: { STATUS: 'ACCEPTED', question_id: question.id }
+          channel: "user-" + "#{current_user.id}" + "-client",
+          message: { question_id: question.id }
         )
         $pubnub.publish(
-          channel: "user-" + "#{mentor.user_id}",
-          message: { STATUS: 'MATCHED', question_id: question.id }
+          channel: "user-" + "#{mentor.user_id}" + "-mentor",
+          message: { question_id: question.id }
         )
         return
       end
