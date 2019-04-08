@@ -63,6 +63,10 @@ class User < ApplicationRecord
     user_tags.map { |tag| tag[:tag_id] }
   end
 
+  def avatar_url
+    profile_picture.service_url.split("?").first if profile_picture.attachment
+  end
+
   private
 
   def email_must_contain_alpha

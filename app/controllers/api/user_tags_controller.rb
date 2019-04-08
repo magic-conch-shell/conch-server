@@ -60,6 +60,11 @@ class Api::UserTagsController < ApplicationController
           }, status: 500
         end
       end
+    else
+      render :json => {
+        error: 'User is not a mentor',
+        status: 403
+      }, status: 403
     end
   end
 end

@@ -17,6 +17,7 @@ database.yml
 /tmp/*
 !/log/.keep
 !/tmp/.keep
+pubnub.log
 
 # Ignore uploaded files in development
 /storage/*
