@@ -3,13 +3,13 @@ class SessionsController < ApplicationController
 
   def create
     if current_user
-      render :json => current_user, :include => :mentor_status, :methods => :tags, status: 200
+      render :json => current_user, :include => :mentor_status, :methods => [:tags, :avatar_url], status: 200
     else
       params = session_params
 
       if @user = User.authenticate_with_credentials(params[:email], params[:password])
         session[:user_id] = @user.id
-        render :json => @user, :include => :mentor_status, :methods => :tags, status: 200
+        render :json => @user, :include => :mentor_status, :methods => [:tags, :avatar_url], status: 200
       else
         render :json => {
           error: 'Non-existing email, or incorrect password',
