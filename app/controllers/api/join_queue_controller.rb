@@ -41,11 +41,11 @@ class Api::JoinQueueController < ApplicationController
         question.update_column(:mentor_id, mstatus.user_id)
 
         $pubnub.publish(
-          channel: "user-" + "#{current_user.id}" + "-client",
+          channel: "user-" + "#{current_user.id}" + "-mentor",
           message: { question_id: question.question_id }
         )
         $pubnub.publish(
-          channel: "user-" + "#{quid}" + "-mentor",
+          channel: "user-" + "#{quid}" + "-client",
           message: { question_id: question.question_id }
         )
         return
