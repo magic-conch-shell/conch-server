@@ -10,6 +10,7 @@ class SessionsController < ApplicationController
       if @user = User.authenticate_with_credentials(params[:email], params[:password])
         session[:user_id] = @user.id
         render :json => @user, status: 200
+        puts "hihi #{$pubnub}"
       else
         render :json => {
           error: 'Non-existing email, or incorrect password',
