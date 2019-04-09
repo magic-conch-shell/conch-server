@@ -5,11 +5,15 @@ class Api::JoinQueueController < ApplicationController
 
   def index
     if current_user.is_mentor
-      if current_user.mentor_status
-        return render :json => true, status: 200
+      if (@mstatus = current_user.mentor_status)
+        if @mstatus.answering
+          return render :json => 'BUSY', status: 200
+        else
+          return render :json => 'IN_QUEUE', status: 200
+        end
       end
     end
-    render :json => false, status: 200
+    render :json => 'NOT_IN_QUEUE', status: 200
   end
 
   def create
