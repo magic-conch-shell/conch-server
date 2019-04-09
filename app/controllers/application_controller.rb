@@ -27,6 +27,7 @@ class ApplicationController < ActionController::Base
       headers['Access-Control-Max-Age'] = '86400'
       headers['Access-Control-Allow-Credentials'] = 'true'
     end
+    headers['Access-Control-Allow-Credentials'] = 'true'
   end
   helper_method :set_headers
 end
