@@ -1,6 +1,6 @@
 class RegisterController < ApplicationController
   skip_before_action :verify_authenticity_token
-  before_filter :set_headers
+  before_action :set_headers
 
   def create
     session[:user_id] = nil
