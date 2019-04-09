@@ -25,10 +25,11 @@ class Api::JoinQueueController < ApplicationController
             status: 500
           }, status: 500
         end
+        render :json => 'NOT_IN_QUEUE', status: 200
       else
-        create_mstatus
+        stat = create_mstatus
+        render :json => stat, status: 200
       end
-      render :json => true, status: 200
       # render :json => current_user.mentor_status, status: 200
     else
       render :json => {
@@ -62,8 +63,10 @@ class Api::JoinQueueController < ApplicationController
           channel: "user-" + "#{quid}" + "-client",
           message: { status: 'ACCEPTED', question_id: question.question_id }
         )
-        return
+        return 'BUSY'
       end
     end
+
+    return 'IN_QUEUE'
   end
 end
