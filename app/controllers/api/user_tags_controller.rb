@@ -24,7 +24,7 @@ class Api::UserTagsController < ApplicationController
     if current_user.is_mentor
       tag_list = params[:tags]
       tag_list.each do |tagid|
-        if Tag.find(tagid)
+        if Tag.find(tagid) && current_user.user_tags.where(tag_id: tagid).size == 0
           @new_user_tag = current_user.user_tags.new(tag_id: tagid)
           unless @new_user_tag.save
             return render :json => {
