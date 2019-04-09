@@ -44,7 +44,7 @@ Rails.application.routes.draw do
     resources :password_resets, only: [:create, :update]
     resources :verify_token, only: [:create]
 
-    resources :join_queue, only: [:create]
+    resources :join_queue, only: [:index, :create]
   end
 
   post '/login' => 'sessions#create'

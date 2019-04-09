@@ -3,6 +3,15 @@ class Api::JoinQueueController < ApplicationController
   skip_before_action :verify_authenticity_token
   before_action :set_headers
 
+  def index
+    if current_user.is_mentor
+      if current_user.mentor_status
+        return render :json => true, status: 200
+      end
+    end
+    render :json => false, status: 200
+  end
+
   def create
     if current_user.is_mentor
       if current_user.mentor_status
