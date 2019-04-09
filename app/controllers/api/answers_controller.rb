@@ -94,7 +94,7 @@ class Api::AnswersController < ApplicationController
           message: { STATUS: 'PASSED', question_id: @question.id }
         )
       end
-      render :json => true, status: 200
+      render :json => @answer, status: 200
     else
       render :json => {
         error: 'User is not the owner of the question',
