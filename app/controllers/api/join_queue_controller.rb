@@ -7,13 +7,14 @@ class Api::JoinQueueController < ApplicationController
     if current_user.is_mentor
       if (@mstatus = current_user.mentor_status)
         if @mstatus.answering
-          return render :json => 'BUSY', status: 200
+          qid = QuestionStatus.where(status: 'ACCEPTED', mentor_id: current_user.id).first.question_id
+          return render :json => {status: 'BUSY', question_id: qid}, status: 200
         else
-          return render :json => 'IN_QUEUE', status: 200
+          return render :json => {status: 'IN_QUEUE'}, status: 200
         end
       end
     end
-    render :json => 'NOT_IN_QUEUE', status: 200
+    render :json => {status: 'NOT_IN_QUEUE'}, status: 200
   end
 
   def create
@@ -25,7 +26,7 @@ class Api::JoinQueueController < ApplicationController
             status: 500
           }, status: 500
         end
-        render :json => 'NOT_IN_QUEUE', status: 200
+        render :json => {status: 'NOT_IN_QUEUE'}, status: 200
       else
         stat = create_mstatus
         render :json => stat, status: 200
@@ -63,10 +64,10 @@ class Api::JoinQueueController < ApplicationController
           channel: "user-" + "#{quid}" + "-client",
           message: { status: 'ACCEPTED', question_id: question.question_id }
         )
-        return 'BUSY'
+        return {status: 'BUSY', question_id: question.question_id}
       end
     end
 
-    return 'IN_QUEUE'
+    return {status: 'IN_QUEUE'}
   end
 end
