@@ -1,6 +1,6 @@
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins 'https://magic-conch-shell.github.io'
+    origins 'https://www.conchshell.org'
     resource '*',
       headers: :any,
       credentials: true,
