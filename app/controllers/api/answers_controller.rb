@@ -14,7 +14,10 @@ class Api::AnswersController < ApplicationController
         }, status: 403
       end
     else
-      if (@answers = Answer.order('created_at ASC').where(question_id: params[:question_id])) && (current_user.id == Question.find(params[:question_id]).user_id || current_user.id == @answers.user_id)
+      @answers = Answer.order('created_at ASC').where(question_id: params[:question_id])
+      auid = @answers.map { |x| x.user_id }
+      matches = auid & [current_user.id]
+      if @answers && (current_user.id == Question.find(params[:question_id]).user_id || matches.size > 0)
         render :json => @answers, status: 200
       else
         render :json => {
